@@ -8,7 +8,7 @@ std::string ReadToken()
 {
     const std::filesystem::path path = "/home/jkiiskil/workdir/discortBot/dependencies/token.txt";
     std::ifstream in(path);
-    if(!in) 
+    if(!in)
     {
         throw "token file missing";
     }

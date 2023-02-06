@@ -5,13 +5,14 @@
 
 #include "utils/utils.hpp"
 #include "resources/constants.hpp"
+#include "eventHandler.hpp"
 
 namespace saunabot {
 
 class Manager
 {
 public:
-    Manager(const std::string& token); 
+    Manager(const std::string& token);
     ~Manager();
 
     void Start();
@@ -23,7 +24,7 @@ private:
     //void GetEmojis();
 
     std::unique_ptr<dpp::cluster> bot_;
-    const std::string version_ = "0.0.2";
+    std::unique_ptr<EventHandler> eventHandler_;
 };
 
 } //namespace saunabot

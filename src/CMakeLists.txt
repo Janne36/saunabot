@@ -1,8 +1,9 @@
 
 set(EXEC_NAME Saunaklonkku)
-add_executable(${EXEC_NAME} 
+add_executable(${EXEC_NAME}
     main.cpp
     manager.cpp
-    saunabot.cpp)
+    saunabot.cpp
+    eventHandler.cpp)
 
 target_link_libraries(${EXEC_NAME} dpp utils)

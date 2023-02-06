@@ -1,9 +1,5 @@
 #include "manager.hpp"
 
-#define CREATE_GLOBAL_CMD(name, description)                                       \
-    bot_->global_command_create(dpp::slashcommand(name, description, bot_->me.id)) \
-
-
 namespace saunabot {
 
 Manager::Manager(const std::string& token)
@@ -12,7 +8,9 @@ Manager::Manager(const std::string& token)
     bot_->on_log(dpp::utility::cout_logger());
 
     this->InitSlashCmds();
-    this->InitOnReady();  
+    this->InitOnReady();
+
+    eventHandler_ = std::make_unique<EventHandler>();
 }
 
 Manager::~Manager()
@@ -28,14 +26,19 @@ void Manager::Start()
 void Manager::InitSlashCmds()
 {
     bot_->on_slashcommand([this](const dpp::slashcommand_t& event) {
-        if (event.command.get_command_name() == resources::cmds::PING) {
-            event.reply("Pong!");
+        const auto cmdName = event.command.get_command_name();
+
+        if (cmdName == resources::cmds::PING) {
+            eventHandler_->Ping(event);
         }
-        else if (event.command.get_command_name() == resources::cmds::VERSION) {
-            event.reply(this->version_);
+        else if (cmdName == resources::cmds::VERSION) {
+            eventHandler_->Version(event);
         }
-        else if (event.command.get_command_name() == resources::cmds::BEER) {
-            event.reply("Kaljaa herralle, olkaa hyvä: <:karhu1L:1069670370099068998>");
+        else if (cmdName == resources::cmds::BEER) {
+            eventHandler_->Beer(event);
+        }
+        else {
+            event.reply("Töh, täh?");
         }
     });
 }
@@ -44,9 +47,15 @@ void Manager::InitOnReady()
 {
     bot_->on_ready([this](const dpp::ready_t& event) {
         if (dpp::run_once<struct register_bot_commands>()) {
-            CREATE_GLOBAL_CMD(resources::cmds::PING, "Ping pong!");
-            CREATE_GLOBAL_CMD(resources::cmds::VERSION, "Palauttaa botin version");
-            CREATE_GLOBAL_CMD(resources::cmds::BEER, "Kaljaa on hyvä juua");
+            const std::unordered_map<std::string, std::string> cmdsToCreate {
+                {resources::cmds::PING, resources::descriptions::PING},
+                {resources::cmds::VERSION, resources::descriptions::VERSION },
+                {resources::cmds::BEER, resources::descriptions::BEER }
+            };
+            for (const auto cmd : cmdsToCreate)
+            {
+                bot_->global_command_create(dpp::slashcommand(cmd.first, cmd.second, bot_->me.id));
+            }
         }
     });
 }
