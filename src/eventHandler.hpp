@@ -15,7 +15,6 @@ public:
     void Ping(const dpp::slashcommand_t& event);
     void Version(const dpp::slashcommand_t& event);
     void Beer(const dpp::slashcommand_t& event);
-
 };
 
 } //namespace saunabot

@@ -3,7 +3,6 @@
 
 namespace saunabot {
 
-
 void Run()
 {
     const std::string token = saunabot::utils::ReadToken();

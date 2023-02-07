@@ -6,6 +6,7 @@
 #include "utils/utils.hpp"
 #include "resources/constants.hpp"
 #include "eventHandler.hpp"
+#include "logger.hpp"
 
 namespace saunabot {
 
@@ -18,6 +19,7 @@ public:
     void Start();
 
 private:
+    void InitLogger();
     void InitSlashCmds();
     void InitOnReady();
 
