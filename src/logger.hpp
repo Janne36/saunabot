@@ -19,12 +19,14 @@ public:
 
     void Init();
     void Log(const std::string& msg);
+    void LogDpp(const std::string& msg);
 
 private:
     Logger() = default;
     static Logger& instance;
 
     std::shared_ptr<spdlog::logger> logger_;
+    std::shared_ptr<spdlog::logger> dppLogger_;
 };
 
 } //namespace saunabot

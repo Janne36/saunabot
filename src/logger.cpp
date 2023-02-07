@@ -9,20 +9,31 @@ void Logger::Init()
     sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_st>());
     //sinks.push_back(std::make_shared<spdlog::sinks::rotating_file_sink_st>("logs/multisink.txt", 1048576 * 5, 3));
 
-    auto saunalogger = std::make_shared<spdlog::logger>("saunalogger", sinks.begin(), sinks.end());
+    // Log messages from different sources under different names
+    auto saunaLogger = std::make_shared<spdlog::logger>("saunabot", sinks.begin(), sinks.end());
+    auto dppLogger = std::make_shared<spdlog::logger>("dpp", sinks.begin(), sinks.end());
 
-    saunalogger->set_level(spdlog::level::debug);
-    spdlog::register_logger(saunalogger);
+    saunaLogger->set_level(spdlog::level::debug);
+    dppLogger->set_level(spdlog::level::debug);
 
-    // Chop, chop!
-    logger_ = spdlog::get("saunalogger");
+    logger_ = std::move(saunaLogger); // Chop, chop!
+    dppLogger_ = std::move(dppLogger);
+
     this->Log("Saunalogger running and ready");
 }
 
+// Log stuff from saunabot itself
 void Logger::Log(const std::string& msg)
 {
     // TODO: Severity
     logger_->info(msg);
+}
+
+// Log events from Dpp lib only
+void Logger::LogDpp(const std::string& msg)
+{
+    // TODO: Severity
+    dppLogger_->info(msg);
 }
 
 } //namespace saunabot

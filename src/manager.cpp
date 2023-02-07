@@ -30,7 +30,7 @@ void Manager::InitLogger()
     Logger::Instance().Init();
     bot_->on_log([this](const dpp::log_t& log) {
         // TODO: handle log.severity
-        Logger::Instance().Log(log.message);
+        Logger::Instance().LogDpp(log.message);
     });
 }
 
