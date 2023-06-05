@@ -4,9 +4,8 @@
 namespace saunabot {
 namespace utils {
 
-std::string ReadToken()
+std::string ReadToken(const std::filesystem::path& path)
 {
-    const std::filesystem::path path = "/home/jkiiskil/workdir/discortBot/dependencies/token.txt";
     std::ifstream in(path);
     if(!in)
     {

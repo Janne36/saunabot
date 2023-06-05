@@ -1,8 +1,10 @@
+#pragma once
 
 #include <dpp/dpp.h>
 
 #include "resources/constants.hpp"
 #include "utils/utils.hpp"
+#include "logger.hpp"
 
 namespace saunabot {
 

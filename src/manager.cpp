@@ -2,17 +2,21 @@
 
 namespace saunabot {
 
-Manager::Manager(const std::string& token)
+Manager::Manager()
 {
+    configHandler_ = std::make_unique<config::ConfigHandler>();
+    Logger::Instance().Init(configHandler_->GetLogPath());
+
+    const std::string token = saunabot::utils::ReadToken(configHandler_->GetTokenPath());
     bot_ = std::make_unique<dpp::cluster>(token);
 
-    this->InitLogger();
+    this->SetDppLogHandle();
     this->InitSlashCmds();
     this->InitOnReady();
 
     eventHandler_ = std::make_unique<EventHandler>();
 
-    Logger::Instance().Log("Manager init done");
+    LOG_INFO("Manager init done");
 }
 
 Manager::~Manager()
@@ -25,12 +29,12 @@ void Manager::Start()
     bot_->start(false);
 }
 
-void Manager::InitLogger()
+void Manager::SetDppLogHandle()
 {
-    Logger::Instance().Init();
     bot_->on_log([this](const dpp::log_t& log) {
         // TODO: handle log.severity
-        Logger::Instance().LogDpp(log.message);
+        //Logger::Instance().LogDpp(log.message);
+        LOG_DPP(log.message);
     });
 }
 

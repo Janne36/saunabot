@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "saunabot.hpp"
+#include "logger.hpp"
 
 int main()
 {
@@ -16,7 +17,6 @@ int main()
     catch(...)
     {
         std::cout << "Something went very wrong" << "\n";
-        return -1;
     }
 
     return 0;

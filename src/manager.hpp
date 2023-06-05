@@ -6,6 +6,7 @@
 #include "utils/utils.hpp"
 #include "resources/constants.hpp"
 #include "eventHandler.hpp"
+#include "config/configHandler.hpp"
 #include "logger.hpp"
 
 namespace saunabot {
@@ -13,13 +14,13 @@ namespace saunabot {
 class Manager
 {
 public:
-    Manager(const std::string& token);
+    Manager();
     ~Manager();
 
     void Start();
 
 private:
-    void InitLogger();
+    void SetDppLogHandle();
     void InitSlashCmds();
     void InitOnReady();
 
@@ -27,6 +28,7 @@ private:
 
     std::unique_ptr<dpp::cluster> bot_;
     std::unique_ptr<EventHandler> eventHandler_;
+    std::unique_ptr<config::ConfigHandler> configHandler_;
 };
 
 } //namespace saunabot

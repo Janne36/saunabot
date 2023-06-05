@@ -5,14 +5,15 @@
 #include <fstream>
 #include <filesystem>
 #include <random>
+#include <configparser.hpp>
 
 namespace saunabot {
 namespace utils {
 
-std::string ReadToken();
+std::string ReadToken(const std::filesystem::path& path);
 
 template<typename T>
-T PickRandom(const std::vector<T> vec)
+T PickRandom(const std::vector<T>& vec)
 {
     std::random_device rd;
     std::mt19937 rng(rd());

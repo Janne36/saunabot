@@ -3,37 +3,56 @@
 
 namespace saunabot {
 
-void Logger::Init()
+void Logger::Init(const std::string& logPath)
 {
-    std::vector<spdlog::sink_ptr> sinks;
-    sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_st>());
-    //sinks.push_back(std::make_shared<spdlog::sinks::rotating_file_sink_st>("logs/multisink.txt", 1048576 * 5, 3));
+    auto stdoutSink = std::make_shared<spdlog::sinks::stdout_sink_st>();
+    stdoutSink->set_level(spdlog::level::debug);
+
+    auto fileSink = std::make_shared<spdlog::sinks::rotating_file_sink_st>(logPath, 1024 * 1024, 3, true);
+    fileSink->set_level(spdlog::level::debug);
+
+    const std::vector<spdlog::sink_ptr> sinks {stdoutSink, fileSink};
 
     // Log messages from different sources under different names
-    auto saunaLogger = std::make_shared<spdlog::logger>("saunabot", sinks.begin(), sinks.end());
+    auto saunaLogger = std::make_shared<spdlog::logger>("sauna", sinks.begin(), sinks.end());
     auto dppLogger = std::make_shared<spdlog::logger>("dpp", sinks.begin(), sinks.end());
 
-    saunaLogger->set_level(spdlog::level::debug);
-    dppLogger->set_level(spdlog::level::debug);
+    saunaLogger->flush_on(spdlog::level::info);
+    dppLogger->flush_on(spdlog::level::info);
 
-    logger_ = std::move(saunaLogger); // Chop, chop!
-    dppLogger_ = std::move(dppLogger);
+    loggers_.emplace("sauna", saunaLogger);
+    loggers_.emplace("dpp", dppLogger);
 
-    this->Log("Saunalogger running and ready");
+    this->Info("Saunalogger running and ready");
 }
 
 // Log stuff from saunabot itself
-void Logger::Log(const std::string& msg)
+void Logger::Info(const std::string& msg)
 {
-    // TODO: Severity
-    logger_->info(msg);
+    //saunaLogger_->info(msg);
+    loggers_.at("sauna")->info(msg);
+}
+
+void Logger::Warn(const std::string& msg)
+{
+    loggers_.at("sauna")->warn(msg);
+}
+
+void Logger::Error(const std::string& msg)
+{
+    loggers_.at("sauna")->error(msg);
+}
+
+void Logger::Debug(const std::string& msg)
+{
+    loggers_.at("sauna")->debug(msg);
 }
 
 // Log events from Dpp lib only
-void Logger::LogDpp(const std::string& msg)
+void Logger::Dpp(const std::string& msg)
 {
     // TODO: Severity
-    dppLogger_->info(msg);
+   loggers_.at("dpp")->info(msg);
 }
 
 } //namespace saunabot
