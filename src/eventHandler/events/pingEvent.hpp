@@ -7,7 +7,7 @@ namespace saunabot {
 class PingEvent : public BaseEvent
 {
 public:
-    PingEvent(): BaseEvent(resources::cmds::PING) {}
+    PingEvent(): BaseEvent(resources::cmds::PING, resources::descriptions::PING) {}
 
     void Execute(const dpp::slashcommand_t& event) override
     {

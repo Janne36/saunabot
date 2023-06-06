@@ -16,7 +16,8 @@ class EventHandler
 public:
     EventHandler();
     ~EventHandler() = default;
-
+    
+    auto GetEvents() -> std::unordered_map<std::string, std::string>;
     void Handle(const dpp::slashcommand_t& event);
 
 private:

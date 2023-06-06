@@ -8,7 +8,7 @@ namespace saunabot {
 class BeerEvent : public BaseEvent
 {
 public:
-    BeerEvent(): BaseEvent(resources::cmds::BEER) {}
+    BeerEvent(): BaseEvent(resources::cmds::BEER, resources::descriptions::BEER) {}
 
     void Execute(const dpp::slashcommand_t& event) override
     {

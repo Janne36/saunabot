@@ -13,6 +13,20 @@ EventHandler::EventHandler()
     events_.push_back(std::move(beerEvent));
 }
 
+auto EventHandler::GetEvents() -> std::unordered_map<std::string, std::string>
+{
+    std::unordered_map<std::string, std::string> foundEvents{};
+    for (const auto& it : this->events_)
+    {
+        foundEvents.emplace(it->GetName(), it->GetDescription());
+    }
+    if(foundEvents.empty())
+    {
+        LOG_WARN("No events found!");
+    }
+    return foundEvents;
+}
+
 void EventHandler::Handle(const dpp::slashcommand_t& event)
 {
     const auto cmdName = event.command.get_command_name();

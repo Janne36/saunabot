@@ -48,13 +48,9 @@ void Manager::InitOnReady()
 {
     bot_->on_ready([this](const dpp::ready_t& event) {
         if (dpp::run_once<struct register_bot_commands>()) {
-            const std::unordered_map<std::string, std::string> cmdsToCreate {
-                {resources::cmds::PING, resources::descriptions::PING},
-                {resources::cmds::VERSION, resources::descriptions::VERSION },
-                {resources::cmds::BEER, resources::descriptions::BEER }
-            };
-            for (const auto cmd : cmdsToCreate)
+            for (const auto cmd : this->eventHandler_->GetEvents())
             {
+                LOG_DEBUG("Register event: " + cmd.first);
                 bot_->global_command_create(dpp::slashcommand(cmd.first, cmd.second, bot_->me.id));
             }
         }
