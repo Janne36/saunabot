@@ -3,11 +3,14 @@
 #include <libconfig.h++>
 #include <cstdlib>
 #include <iostream>
-#include "logger.hpp"
 
 namespace saunabot {
 namespace config {
 
+/**
+ * Configuration handler for saunabot
+ * Should be loaded first in startup
+ */
 class ConfigHandler
 {
 public: 

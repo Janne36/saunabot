@@ -2,19 +2,18 @@
 
 namespace saunabot {
 
-Manager::Manager()
+Manager::Manager(std::shared_ptr<config::ConfigHandler>& configHandler)
 {
-    configHandler_ = std::make_unique<config::ConfigHandler>();
-    Logger::Instance().Init(configHandler_->GetLogPath());
+    configHandler_ = configHandler;
 
     const std::string token = saunabot::utils::ReadToken(configHandler_->GetTokenPath());
+
     bot_ = std::make_unique<dpp::cluster>(token);
+    eventHandler_ = std::make_unique<EventHandler>();
 
     this->SetDppLogHandle();
     this->InitSlashCmds();
     this->InitOnReady();
-
-    eventHandler_ = std::make_unique<EventHandler>();
 
     LOG_INFO("Manager init done");
 }
@@ -41,20 +40,7 @@ void Manager::SetDppLogHandle()
 void Manager::InitSlashCmds()
 {
     bot_->on_slashcommand([this](const dpp::slashcommand_t& event) {
-        const auto cmdName = event.command.get_command_name();
-
-        if (cmdName == resources::cmds::PING) {
-            eventHandler_->Ping(event);
-        }
-        else if (cmdName == resources::cmds::VERSION) {
-            eventHandler_->Version(event);
-        }
-        else if (cmdName == resources::cmds::BEER) {
-            eventHandler_->Beer(event);
-        }
-        else {
-            event.reply("Töh, täh?");
-        }
+        this->eventHandler_->Handle(event);
     });
 }
 

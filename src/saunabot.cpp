@@ -5,7 +5,10 @@ namespace saunabot {
 
 void Run()
 {
-    auto manager = std::make_unique<saunabot::Manager>();
+    auto configHandler = std::make_shared<config::ConfigHandler>();
+    utils::Logger::Instance().Init(configHandler);
+
+    auto manager = std::make_unique<saunabot::Manager>(configHandler);
     manager->Start();
 }
 

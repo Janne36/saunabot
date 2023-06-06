@@ -1,13 +1,17 @@
 
 set(EXEC_NAME Saunaklonkku)
-add_executable(${EXEC_NAME}
+
+set(EXEC_SRC 
     main.cpp
     manager.cpp
     saunabot.cpp
-    eventHandler.cpp
-    logger.cpp
+    eventHandler/eventHandler.cpp
+    utils/logger.cpp
     utils/utils.cpp
-    config/configHandler.cpp)
+    config/configHandler.cpp
+)
+
+add_executable(${EXEC_NAME} ${EXEC_SRC})
 
 if(NOT TARGET spdlog)
     find_package(spdlog REQUIRED)

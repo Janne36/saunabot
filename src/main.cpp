@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include "saunabot.hpp"
-#include "logger.hpp"
+#include "utils/logger.hpp"
 
 int main()
 {

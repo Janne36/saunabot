@@ -7,6 +7,8 @@ namespace constants {
 
 static const char VERSION[] = "0.0.3";
 inline constexpr unsigned long int SAUNA_ID = 1069657680140054679;
+static const char LOGGER_NAME_1[] = "klonkku";
+static const char LOGGER_NAME_2[] = "dpp";
 
 } // namespace constants
 

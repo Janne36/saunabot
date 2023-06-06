@@ -4,14 +4,19 @@
 #include <spdlog/sinks/stdout_sinks.h>
 #include <spdlog/sinks/rotating_file_sink.h>
 #include <unordered_map>
+#include <memory>
 
-#define LOG_INFO(MSG) Logger::Instance().Info(MSG)
-#define LOG_WARN(MSG) Logger::Instance().Warn(MSG)
-#define LOG_ERROR(MSG) Logger::Instance().Error(MSG)
-#define LOG_DEBUG(MSG) Logger::Instance().Debug(MSG)
-#define LOG_DPP(MSG) Logger::Instance().Dpp(MSG)
+#include "config/configHandler.hpp"
+#include "resources/constants.hpp"
+
+#define LOG_INFO(MSG) utils::Logger::Instance().Info(MSG)
+#define LOG_WARN(MSG) utils::Logger::Instance().Warn(MSG)
+#define LOG_ERROR(MSG) utils::Logger::Instance().Error(MSG)
+#define LOG_DEBUG(MSG) utils::Logger::Instance().Debug(MSG)
+#define LOG_DPP(MSG) utils::Logger::Instance().Dpp(MSG)
 
 namespace saunabot {
+namespace utils {
 
 class Logger
 {
@@ -24,7 +29,7 @@ public:
     Logger(Logger const&) = delete;
     void operator=(Logger const&)  = delete;
 
-    void Init(const std::string& logPath);
+    void Init(std::shared_ptr<config::ConfigHandler>& configHandler);
     
     void Info(const std::string& msg);
     void Warn(const std::string& msg);
@@ -36,7 +41,11 @@ private:
     Logger() = default;
     static Logger& instance;
 
+    void CreateLogger(const std::string& name,  const std::vector<spdlog::sink_ptr>& sinks);
+
     std::unordered_map<std::string, std::shared_ptr<spdlog::logger>> loggers_;
+    std::shared_ptr<config::ConfigHandler> configHandler_;
 };
 
+} // namespace utils
 } //namespace saunabot

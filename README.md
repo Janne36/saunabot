@@ -7,4 +7,4 @@ libconfig https://hyperrealm.github.io/libconfig/
 
 Use cmaketools to build
 
-Bot token needes to be added to dependencies/token.txt
+Bot token path needs to be setup to config.cfg
