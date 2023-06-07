@@ -3,14 +3,16 @@ project(discortBot)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 set_property(GLOBAL PROPERTY SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
-enable_testing()
+#enable_testing()
+include_directories(src)
 
 add_subdirectory(src)
-add_subdirectory(test_src)
+add_subdirectory(tst)
 
-#add_custom_command(build_tests SHARED)
+#add_custom_target(unit_tests SHARED)
 
 include(InstallRequiredSystemLibraries)
 

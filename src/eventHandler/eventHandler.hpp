@@ -13,14 +13,14 @@ namespace saunabot {
 
 class EventHandler
 {
-  public:
+public:
     EventHandler();
     ~EventHandler() = default;
 
     auto GetEvents() -> std::unordered_map<std::string, std::string>;
     void Handle(const dpp::slashcommand_t &event);
 
-  private:
+private:
     BaseEvent *FindEvent(const std::string &eventName);
 
     std::vector<std::unique_ptr<BaseEvent>> events_;

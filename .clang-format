@@ -4,8 +4,8 @@ Language: Cpp
 IndentWidth: 4
 ColumnLimit: 100
 UseTab: Never
-#IndentAccessModifiers: false
-#AccessModifierOffset: -2
+IndentAccessModifiers: false
+AccessModifierOffset: -4
 BreakBeforeBraces: Custom
 BraceWrapping:
     AfterFunction: true

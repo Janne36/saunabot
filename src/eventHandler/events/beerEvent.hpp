@@ -7,15 +7,21 @@ namespace saunabot {
 
 class BeerEvent : public BaseEvent
 {
-  public:
+public:
     BeerEvent() : BaseEvent(resources::cmds::BEER, resources::descriptions::BEER) {}
 
     void Execute(const dpp::slashcommand_t &event) override
     {
         LOG_DEBUG("Beer event received");
-        const auto randomReply = utils::PickRandom(resources::replies::beerReg);
-        event.reply(randomReply + ": <:karhu1L:1069670370099068998>");
+        event.reply(this->CreateReply());
     };
+
+private:
+    std::string CreateReply()
+    {
+        const auto randomReply = utils::PickRandom(resources::replies::beerReg);
+        return randomReply + ": <:karhu1L:1069670370099068998>";
+    }
 };
 
 } // namespace saunabot
