@@ -4,20 +4,11 @@
 namespace saunabot {
 namespace config {
 
-ConfigHandler::ConfigHandler()
-{
-    Init();
-}
+ConfigHandler::ConfigHandler() { Init(); }
 
-const std::string ConfigHandler::GetTokenPath()
-{
-    return cfg_.lookup("tokenPath");
-}
+const std::string ConfigHandler::GetTokenPath() { return cfg_.lookup("tokenPath"); }
 
-const std::string ConfigHandler::GetLogPath()
-{
-    return cfg_.lookup("logPath");
-}
+const std::string ConfigHandler::GetLogPath() { return cfg_.lookup("logPath"); }
 
 void ConfigHandler::Init()
 {
@@ -25,12 +16,11 @@ void ConfigHandler::Init()
     {
         cfg_.readFile("config.cfg");
     }
-    catch(const libconfig::FileIOException& fioex)
+    catch (const libconfig::FileIOException &fioex)
     {
-
         throw "I/O error while reading file.";
     }
-    catch(const libconfig::ParseException& pex)
+    catch (const libconfig::ParseException &pex)
     {
         const auto file = std::string(pex.getFile());
         const auto line = std::to_string(pex.getLine());
@@ -38,11 +28,11 @@ void ConfigHandler::Init()
 
         throw "Parse error at" + file + ":" + line + "\n: " + err;
     }
-    catch(...)
+    catch (...)
     {
         throw "ConfigHandler::Init unknown failure";
     }
 }
 
-} //namespace config
-} //namespace saunabot
+} // namespace config
+} // namespace saunabot

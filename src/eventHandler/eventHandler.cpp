@@ -16,23 +16,23 @@ EventHandler::EventHandler()
 auto EventHandler::GetEvents() -> std::unordered_map<std::string, std::string>
 {
     std::unordered_map<std::string, std::string> foundEvents{};
-    for (const auto& it : this->events_)
+    for (const auto &it : this->events_)
     {
         foundEvents.emplace(it->GetName(), it->GetDescription());
     }
-    if(foundEvents.empty())
+    if (foundEvents.empty())
     {
         LOG_WARN("No events found!");
     }
     return foundEvents;
 }
 
-void EventHandler::Handle(const dpp::slashcommand_t& event)
+void EventHandler::Handle(const dpp::slashcommand_t &event)
 {
     const auto cmdName = event.command.get_command_name();
-    auto* foundEvent = this->FindEvent(cmdName);
-    
-    if(foundEvent != nullptr)
+    auto *foundEvent = this->FindEvent(cmdName);
+
+    if (foundEvent != nullptr)
     {
         LOG_DEBUG("Event found: " + cmdName);
         foundEvent->Execute(event);
@@ -44,10 +44,9 @@ void EventHandler::Handle(const dpp::slashcommand_t& event)
     }
 }
 
-BaseEvent* EventHandler::FindEvent(const std::string& eventName)
+BaseEvent *EventHandler::FindEvent(const std::string &eventName)
 {
-    auto findByName = [&eventName](const std::unique_ptr<BaseEvent>& event)
-    {   
+    auto findByName = [&eventName](const std::unique_ptr<BaseEvent> &event) {
         return event->GetName() == eventName;
     };
     auto it = std::find_if(this->events_.begin(), this->events_.end(), findByName);
@@ -55,7 +54,7 @@ BaseEvent* EventHandler::FindEvent(const std::string& eventName)
     {
         return it->get();
     }
-    return nullptr;  
+    return nullptr;
 }
 
-} //namespace saunabot
+} // namespace saunabot

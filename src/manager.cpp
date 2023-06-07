@@ -2,7 +2,7 @@
 
 namespace saunabot {
 
-Manager::Manager(std::shared_ptr<config::ConfigHandler>& configHandler)
+Manager::Manager(std::shared_ptr<config::ConfigHandler> &configHandler)
 {
     configHandler_ = configHandler;
 
@@ -18,36 +18,30 @@ Manager::Manager(std::shared_ptr<config::ConfigHandler>& configHandler)
     LOG_INFO("Manager init done");
 }
 
-Manager::~Manager()
-{
-    bot_->shutdown();
-}
+Manager::~Manager() { bot_->shutdown(); }
 
-void Manager::Start()
-{
-    bot_->start(false);
-}
+void Manager::Start() { bot_->start(false); }
 
 void Manager::SetDppLogHandle()
 {
-    bot_->on_log([this](const dpp::log_t& log) {
+    bot_->on_log([this](const dpp::log_t &log) {
         // TODO: handle log.severity
-        //Logger::Instance().LogDpp(log.message);
+        // Logger::Instance().LogDpp(log.message);
         LOG_DPP(log.message);
     });
 }
 
 void Manager::InitSlashCmds()
 {
-    bot_->on_slashcommand([this](const dpp::slashcommand_t& event) {
-        this->eventHandler_->Handle(event);
-    });
+    bot_->on_slashcommand(
+        [this](const dpp::slashcommand_t &event) { this->eventHandler_->Handle(event); });
 }
 
 void Manager::InitOnReady()
 {
-    bot_->on_ready([this](const dpp::ready_t& event) {
-        if (dpp::run_once<struct register_bot_commands>()) {
+    bot_->on_ready([this](const dpp::ready_t &event) {
+        if (dpp::run_once<struct register_bot_commands>())
+        {
             for (const auto cmd : this->eventHandler_->GetEvents())
             {
                 LOG_DEBUG("Register event: " + cmd.first);
@@ -60,10 +54,11 @@ void Manager::InitOnReady()
 /*
 void Manager::GetEmojis()
 {
-    bot_->guild_emojis_get(resources::constants::SAUNA_ID, [this](const dpp::confirmation_callback_t& callback) -> dpp::confirmation_callback_t& {
+    bot_->guild_emojis_get(resources::constants::SAUNA_ID, [this](const
+dpp::confirmation_callback_t& callback) -> dpp::confirmation_callback_t& {
 
     });
 }
 */
 
-} //namespace saunabot
+} // namespace saunabot

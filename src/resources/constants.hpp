@@ -32,14 +32,9 @@ static const char BEER[] = "Kaljaa on hyvä juua";
 namespace replies {
 
 static const char PING[] = "Pong!";
-static const std::vector<std::string> beerReg {
-    "Kaljaa? Tottakai",
-    "Kaljaa herralle, olkaa hyvä",
-    "Kaikkien janoisten sankari",
-    "Kyllä herra",
-    "Tietysti pauligin",
-    "Ei täällä kuivin suin olla"
-};
+static const std::vector<std::string> beerReg{
+    "Kaljaa? Tottakai", "Kaljaa herralle, olkaa hyvä", "Kaikkien janoisten sankari",
+    "Kyllä herra",      "Tietysti pauligin",           "Ei täällä kuivin suin olla"};
 
 } // namespace replies
 

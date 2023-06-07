@@ -1,10 +1,11 @@
 #pragma once
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_sinks.h>
 #include <spdlog/sinks/rotating_file_sink.h>
-#include <unordered_map>
+#include <spdlog/sinks/stdout_sinks.h>
+#include <spdlog/spdlog.h>
+
 #include <memory>
+#include <unordered_map>
 
 #include "config/configHandler.hpp"
 #include "resources/constants.hpp"
@@ -20,32 +21,32 @@ namespace utils {
 
 class Logger
 {
-public:
-    static Logger& Instance()
+  public:
+    static Logger &Instance()
     {
         static Logger instance;
         return instance;
     }
-    Logger(Logger const&) = delete;
-    void operator=(Logger const&)  = delete;
+    Logger(Logger const &) = delete;
+    void operator=(Logger const &) = delete;
 
-    void Init(std::shared_ptr<config::ConfigHandler>& configHandler);
-    
-    void Info(const std::string& msg);
-    void Warn(const std::string& msg);
-    void Error(const std::string& msg);
-    void Debug(const std::string& msg);
-    void Dpp(const std::string& msg);
+    void Init(std::shared_ptr<config::ConfigHandler> &configHandler);
 
-private:
+    void Info(const std::string &msg);
+    void Warn(const std::string &msg);
+    void Error(const std::string &msg);
+    void Debug(const std::string &msg);
+    void Dpp(const std::string &msg);
+
+  private:
     Logger() = default;
-    static Logger& instance;
+    static Logger &instance;
 
-    void CreateLogger(const std::string& name,  const std::vector<spdlog::sink_ptr>& sinks);
+    void CreateLogger(const std::string &name, const std::vector<spdlog::sink_ptr> &sinks);
 
     std::unordered_map<std::string, std::shared_ptr<spdlog::logger>> loggers_;
     std::shared_ptr<config::ConfigHandler> configHandler_;
 };
 
 } // namespace utils
-} //namespace saunabot
+} // namespace saunabot

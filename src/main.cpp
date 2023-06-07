@@ -1,23 +1,24 @@
 
 #include <iostream>
+
 #include "saunabot.hpp"
 #include "utils/logger.hpp"
 
 int main()
 {
-    try 
+    try
     {
         saunabot::Run();
-    } 
-    catch(const std::exception& e)
+    }
+    catch (const std::exception &e)
     {
         std::cout << "Something went wrong: " << e.what() << "\n";
         return -1;
     }
-    catch(...)
+    catch (...)
     {
-        std::cout << "Something went very wrong" << "\n";
+        std::cout << "Something went very wrong"
+                  << "\n";
     }
-
     return 0;
 }

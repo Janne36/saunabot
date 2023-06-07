@@ -6,10 +6,10 @@ namespace saunabot {
 
 class PingEvent : public BaseEvent
 {
-public:
-    PingEvent(): BaseEvent(resources::cmds::PING, resources::descriptions::PING) {}
+  public:
+    PingEvent() : BaseEvent(resources::cmds::PING, resources::descriptions::PING) {}
 
-    void Execute(const dpp::slashcommand_t& event) override
+    void Execute(const dpp::slashcommand_t &event) override
     {
         LOG_DEBUG("Ping event received");
         event.reply(resources::replies::PING);

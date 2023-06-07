@@ -7,10 +7,10 @@ namespace saunabot {
 
 class BeerEvent : public BaseEvent
 {
-public:
-    BeerEvent(): BaseEvent(resources::cmds::BEER, resources::descriptions::BEER) {}
+  public:
+    BeerEvent() : BaseEvent(resources::cmds::BEER, resources::descriptions::BEER) {}
 
-    void Execute(const dpp::slashcommand_t& event) override
+    void Execute(const dpp::slashcommand_t &event) override
     {
         LOG_DEBUG("Beer event received");
         const auto randomReply = utils::PickRandom(resources::replies::beerReg);

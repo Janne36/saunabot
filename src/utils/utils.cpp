@@ -4,10 +4,10 @@
 namespace saunabot {
 namespace utils {
 
-std::string ReadToken(const std::filesystem::path& path)
+std::string ReadToken(const std::filesystem::path &path)
 {
     std::ifstream in(path);
-    if(!in)
+    if (!in)
     {
         throw "token file missing";
     }
