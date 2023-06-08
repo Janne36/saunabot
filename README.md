@@ -8,3 +8,8 @@ libconfig https://hyperrealm.github.io/libconfig/
 Use cmaketools to build
 
 Bot token path needs to be setup to config.cfg
+
+In build folder:
+
+sudo make install
+sudo cpack -G DEB

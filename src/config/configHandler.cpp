@@ -14,11 +14,12 @@ void ConfigHandler::Init()
 {
     try
     {
-        cfg_.readFile("config.cfg");
+        cfg_.readFile("/usr/local/etc/saunabot/config.cfg");
     }
     catch (const libconfig::FileIOException &fioex)
     {
-        throw "I/O error while reading file.";
+        std::cerr << "I/O error while reading file." << "\n";
+        throw fioex;
     }
     catch (const libconfig::ParseException &pex)
     {
@@ -26,11 +27,13 @@ void ConfigHandler::Init()
         const auto line = std::to_string(pex.getLine());
         const auto err = std::string(pex.getError());
 
-        throw "Parse error at" + file + ":" + line + "\n: " + err;
+        std::cerr << "Parse error at" + file + ":" + line + "\n: " + err << "\n";
+        throw pex;
     }
     catch (...)
     {
-        throw "ConfigHandler::Init unknown failure";
+        std::cerr << "ConfigHandler::Init unknown failure" << "\n";
+        throw;
     }
 }
 
