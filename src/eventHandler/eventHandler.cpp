@@ -3,22 +3,15 @@
 
 namespace saunabot {
 
-EventHandler::EventHandler()
-{
-    // Initiase available events.
-    auto pingEvent = std::make_unique<PingEvent>();
-    auto beerEvent = std::make_unique<BeerEvent>();
+EventHandler::EventHandler(std::vector<std::unique_ptr<BaseEvent>> events) : events_(std::move(events))
+{}
 
-    events_.push_back(std::move(pingEvent));
-    events_.push_back(std::move(beerEvent));
-}
-
-auto EventHandler::GetEvents() -> std::unordered_map<std::string, std::string>
+auto EventHandler::GetSlashCmds(const dpp::snowflake id) -> std::vector<dpp::slashcommand>
 {
-    std::unordered_map<std::string, std::string> foundEvents{};
+    std::vector<dpp::slashcommand> foundEvents{};
     for (const auto &it : this->events_)
     {
-        foundEvents.emplace(it->GetName(), it->GetDescription());
+        foundEvents.push_back(it->CreateSlashCmd(id));
     }
     if (foundEvents.empty())
     {

@@ -14,14 +14,16 @@ namespace saunabot {
 
 class Manager
 {
-  public:
+public:
     Manager(std::shared_ptr<config::ConfigHandler> &configHandler);
     ~Manager();
 
     void Start();
 
-  private:
+private:
+    void InitDppCluster();
     void SetDppLogHandle();
+    void InitEventHandler();
     void InitSlashCmds();
     void InitOnReady();
 

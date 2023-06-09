@@ -2,16 +2,11 @@
 
 namespace saunabot {
 
-Manager::Manager(std::shared_ptr<config::ConfigHandler> &configHandler)
+Manager::Manager(std::shared_ptr<config::ConfigHandler> &configHandler) : configHandler_(configHandler)
 {
-    configHandler_ = configHandler;
-
-    const std::string token = saunabot::utils::ReadToken(configHandler_->GetTokenPath());
-
-    bot_ = std::make_unique<dpp::cluster>(token);
-    eventHandler_ = std::make_unique<EventHandler>();
-
+    this->InitDppCluster();
     this->SetDppLogHandle();
+    this->InitEventHandler();
     this->InitSlashCmds();
     this->InitOnReady();
 
@@ -22,13 +17,28 @@ Manager::~Manager() { bot_->shutdown(); }
 
 void Manager::Start() { bot_->start(false); }
 
+void Manager::InitDppCluster()
+{
+    const std::string token = saunabot::utils::ReadToken(configHandler_->GetTokenPath());
+    bot_ = std::make_unique<dpp::cluster>(token);
+}
+
 void Manager::SetDppLogHandle()
 {
     bot_->on_log([this](const dpp::log_t &log) {
         // TODO: handle log.severity
-        // Logger::Instance().LogDpp(log.message);
         LOG_DPP(log.message);
     });
+}
+
+void Manager::InitEventHandler()
+{
+    // Add events to be created and managed to this vector
+    std::vector<std::unique_ptr<BaseEvent>> events{};
+    events.emplace_back(std::make_unique<PingEvent>());
+    events.emplace_back(std::make_unique<BeerEvent>());
+
+    eventHandler_ = std::make_unique<EventHandler>(std::move(events));
 }
 
 void Manager::InitSlashCmds()
@@ -42,10 +52,9 @@ void Manager::InitOnReady()
     bot_->on_ready([this](const dpp::ready_t &event) {
         if (dpp::run_once<struct register_bot_commands>())
         {
-            for (const auto cmd : this->eventHandler_->GetEvents())
+            for (const auto slashCmd : this->eventHandler_->GetSlashCmds(bot_->me.id))
             {
-                LOG_DEBUG("Register event: " + cmd.first);
-                bot_->global_command_create(dpp::slashcommand(cmd.first, cmd.second, bot_->me.id));
+                bot_->global_command_create(slashCmd);
             }
         }
     });

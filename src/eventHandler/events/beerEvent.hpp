@@ -12,9 +12,19 @@ public:
 
     void Execute(const dpp::slashcommand_t &event) override
     {
-        LOG_DEBUG("Beer event received");
+        //event.get_parameter()
+
+        LOG_DEBUG("Beer event received " + event.raw_event);
+
         event.reply(this->CreateReply());
     };
+
+    dpp::slashcommand CreateSlashCmd(const dpp::snowflake id) override
+    {
+        dpp::slashcommand cmd(this->name, this->description, id);
+        // TODO: ...
+        return cmd;
+    }
 
 private:
     std::string CreateReply()

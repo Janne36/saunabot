@@ -10,18 +10,19 @@
 #include "config/configHandler.hpp"
 #include "resources/constants.hpp"
 
-#define LOG_INFO(MSG) utils::Logger::Instance().Info(MSG)
-#define LOG_WARN(MSG) utils::Logger::Instance().Warn(MSG)
-#define LOG_ERROR(MSG) utils::Logger::Instance().Error(MSG)
-#define LOG_DEBUG(MSG) utils::Logger::Instance().Debug(MSG)
-#define LOG_DPP(MSG) utils::Logger::Instance().Dpp(MSG)
+#define LOGGER utils::Logger::Instance()
+#define LOG_INFO(MSG) LOGGER.Info(MSG)
+#define LOG_WARN(MSG) LOGGER.Warn(MSG)
+#define LOG_ERROR(MSG) LOGGER.Error(MSG)
+#define LOG_DEBUG(MSG) LOGGER.Debug(MSG)
+#define LOG_DPP(MSG) LOGGER.Dpp(MSG)
 
 namespace saunabot {
 namespace utils {
 
 class Logger
 {
-  public:
+public:
     static Logger &Instance()
     {
         static Logger instance;
@@ -38,7 +39,7 @@ class Logger
     void Debug(const std::string &msg);
     void Dpp(const std::string &msg);
 
-  private:
+private:
     Logger() = default;
     static Logger &instance;
 

@@ -14,10 +14,10 @@ namespace saunabot {
 class EventHandler
 {
 public:
-    EventHandler();
+    EventHandler(std::vector<std::unique_ptr<BaseEvent>> events);
     ~EventHandler() = default;
 
-    auto GetEvents() -> std::unordered_map<std::string, std::string>;
+    auto GetSlashCmds(const dpp::snowflake id) -> std::vector<dpp::slashcommand>;
     void Handle(const dpp::slashcommand_t &event);
 
 private:
